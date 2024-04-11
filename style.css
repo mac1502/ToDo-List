@@ -1,0 +1,63 @@
+body {
+    background-image: url(./img/5221116.jpg);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+#work-area {
+    width: 750px;
+    background-color: white;
+    opacity: 0.5;
+    border-radius: 20px;
+    margin: 20px auto;
+    padding: 20px 10px;
+}
+.task-list {
+    width: 500px;
+}
+
+#start-message {
+    margin: 10px;
+}
+
+.task {
+    display: flex;
+    align-items: center;
+    border: 1px solid gray;
+    padding: 3px 8px;
+    margin: 2px 10px;
+}
+
+.task p {
+    margin-left: 4px;
+}
+
+.completed {
+    background-color: green;
+    color: white;
+}
+
+.completed p {
+    text-decoration: line-through;
+}
+
+.input-panel {
+    width: 700px;
+    margin: 8px;
+    padding: 2px;
+    
+}
+
+.input-panel button {
+    padding: 4px;
+    width: 25%;
+}
+
+.input-panel input {
+    height: 23px;
+    padding-left: 4px;
+    width: 68%;
+}
+
+.del-btn {
+    margin-right: 10px;
+    margin-left: auto;
+}
