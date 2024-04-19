@@ -4,7 +4,9 @@ let taskNameInput = document.querySelector("#task-name-input");
         let taskList = document.querySelector(".task-list");
 
         addTaskButton.addEventListener("click", addTaskHandler);
-        
+        taskNameInput.addEventListener("keydown", function (e) {
+            if (e.code == "Enter") addTaskHandler();
+        })
 
         function createTask(text) {
             let div = document.createElement("div");
@@ -17,6 +19,11 @@ let taskNameInput = document.querySelector("#task-name-input");
             let p = document.createElement("p");
             p.innerText = text;
 
+            let redBtn = document.createElement("button");
+            redBtn.addEventListener("click", redTask);
+            redBtn.classList.add("red-btn");
+            redBtn.textContent = "Редагувати";
+
             let delBtn = document.createElement("button");
             delBtn.addEventListener("click", delTask);
             delBtn.classList.add("del-btn");
@@ -24,9 +31,16 @@ let taskNameInput = document.querySelector("#task-name-input");
             
             div.append(input);
             div.append(p);
+            div.append(redBtn);
             div.append(delBtn);
             
             return div;
+        }
+
+        function redTask() {
+            let redInput = document.createElement("input");
+            redInput.type = "text";
+            redInput.classList.add("redInput");
         }
         
         function delTask(){
