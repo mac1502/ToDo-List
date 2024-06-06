@@ -37,10 +37,41 @@ let taskNameInput = document.querySelector("#task-name-input");
             return div;
         }
 
+        
         function redTask() {
-            let redInput = document.createElement("input");
-            redInput.type = "text";
-            redInput.classList.add("redInput");
+            let taskText = this.parentElement.querySelector("p");
+            let taskTextInput = document.createElement("input");
+            taskTextInput.type = "text";
+            taskTextInput.value = taskText.innerText;
+
+            let saveBtn = document.createElement("button");
+            saveBtn.textContent = "Сохранить";
+            saveBtn.addEventListener("click", saveTask);
+
+    taskTextInput.addEventListener("keydown", function(e) {
+        if (e.key === "Enter") {
+            if (document.activeElement === taskTextInput) {
+                saveTask();
+                e.preventDefault();
+            }
+        }
+    });
+
+    function saveTask() {
+        taskText.innerText = taskTextInput.value;
+        taskText.style.display = "inline";
+        this.parentElement.removeChild(taskTextInput);
+        this.parentElement.removeChild(saveBtn);
+    }
+            taskText.style.display = "none";
+            this.parentElement.insertBefore(taskTextInput, taskText);
+            this.parentElement.insertBefore(saveBtn, taskText);
+            
+            taskTextInput.focus();
+
+            taskTextInput.addEventListener("blur", function() {
+            saveTask();
+            });
         }
         
         function delTask(){
@@ -67,3 +98,52 @@ let taskNameInput = document.querySelector("#task-name-input");
                 alert("введіть ім'я завдання");
             }
         }
+        // let xhr = new XMLHttpRequest();
+        // xhr.open('GET', 'https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json', true);
+        // xhr.onreadystatechange = function () {
+        //     if (xhr.readyState == 4 && xhr.status == 200) {
+        //         let response = JSON.parse(xhr.responseText);
+        //         displayCurrency(response);
+        //     }
+        // };
+        // xhr.send();
+
+        // function displayCurrency(data) {
+        //     let currencyDiv = document.getElementById('currency');
+        //     let html = '<ul>';
+        //     for (let i = 0; i < data.length; i++) {
+        //         html += '<li>' + data[i].txt + ': ' + data[i].rate + '</li>';
+        //     }
+        //     html += '</ul>';
+        //     currencyDiv.innerHTML = html;
+// }
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', 'https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json', true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                let response = JSON.parse(xhr.responseText);
+                displayCurrency(response);
+            }
+        };
+        xhr.send();
+
+        // Функция для отображения курса выбранной валюты
+        function displayCurrency(data) {
+            let currencySelector = document.getElementById('currencySelector');
+            let selectedCurrency = currencySelector.value;
+
+            let currencyDiv = document.getElementById('currency');
+            let html = '<p>Курс ' + selectedCurrency + ':</p>';
+            for (let i = 0; i < data.length; i++) {
+                if (data[i].cc === selectedCurrency) {
+                    html += '<p>' + data[i].rate + ' грн' + '</p>';
+                    break; // Найдена выбранная валюта, выходим из цикла
+                }
+            }
+            currencyDiv.innerHTML = html;
+        }
+
+        // Обработчик изменения выбранной валюты
+        document.getElementById('currencySelector').addEventListener('change', function() {
+            displayCurrency(JSON.parse(xhr.responseText)); // Обновляем отображение валюты при изменении
+        });
