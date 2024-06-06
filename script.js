@@ -98,25 +98,7 @@ let taskNameInput = document.querySelector("#task-name-input");
                 alert("введіть ім'я завдання");
             }
         }
-        // let xhr = new XMLHttpRequest();
-        // xhr.open('GET', 'https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json', true);
-        // xhr.onreadystatechange = function () {
-        //     if (xhr.readyState == 4 && xhr.status == 200) {
-        //         let response = JSON.parse(xhr.responseText);
-        //         displayCurrency(response);
-        //     }
-        // };
-        // xhr.send();
-
-        // function displayCurrency(data) {
-        //     let currencyDiv = document.getElementById('currency');
-        //     let html = '<ul>';
-        //     for (let i = 0; i < data.length; i++) {
-        //         html += '<li>' + data[i].txt + ': ' + data[i].rate + '</li>';
-        //     }
-        //     html += '</ul>';
-        //     currencyDiv.innerHTML = html;
-// }
+        
         let xhr = new XMLHttpRequest();
         xhr.open('GET', 'https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json', true);
         xhr.onreadystatechange = function () {
@@ -127,7 +109,6 @@ let taskNameInput = document.querySelector("#task-name-input");
         };
         xhr.send();
 
-        // Функция для отображения курса выбранной валюты
         function displayCurrency(data) {
             let currencySelector = document.getElementById('currencySelector');
             let selectedCurrency = currencySelector.value;
@@ -137,13 +118,12 @@ let taskNameInput = document.querySelector("#task-name-input");
             for (let i = 0; i < data.length; i++) {
                 if (data[i].cc === selectedCurrency) {
                     html += '<p>' + data[i].rate + ' грн' + '</p>';
-                    break; // Найдена выбранная валюта, выходим из цикла
+                    break;
                 }
             }
             currencyDiv.innerHTML = html;
         }
 
-        // Обработчик изменения выбранной валюты
         document.getElementById('currencySelector').addEventListener('change', function() {
-            displayCurrency(JSON.parse(xhr.responseText)); // Обновляем отображение валюты при изменении
+            displayCurrency(JSON.parse(xhr.responseText));
         });
